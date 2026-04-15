@@ -7,7 +7,7 @@ def szyfr_cezara(tekst, klucz):
             litera -= 26
         elif litera < ord('a'):
             litera += 26
-        wynik += chr(litera)
+            wynik += chr(litera)
     return wynik
 n = "alamakota"
 k = 3
