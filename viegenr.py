@@ -45,17 +45,12 @@ def deszyfruj_vigenere(tekst, klucz):
 
     for litera in tekst:
         if litera.isalpha():
-            # 1. Wartość litery zaszyfrowanej (0-25)
             tekst_val = ord(litera.upper()) - ord('A')
 
-            # 2. Wartość klucza (0-25)
             klucz_val = ord(klucz[key_index % len(klucz)]) - ord('A')
 
-            # 3. ODEJMOWANIE (odwracamy przesunięcie)
-            # Python automatycznie obsłuży ujemne wyniki dzięki modulo, np. -1 % 26 = 25
             odszyfrowana_val = (tekst_val - klucz_val) % 26
 
-            # 4. Powrót do znaku ASCII
             wynik += chr(odszyfrowana_val + ord('A'))
             key_index += 1
         else:
