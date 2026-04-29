@@ -1,5 +1,5 @@
 def lamanie_cezara(zaszyfrowany_tekst):
-    polskie_litery = ['a', 'e', 'o', 'i', 'n', 's']  # Najczęstsze litery
+    polskie_litery = ['a', 'e', 'o', 'i', 'n', 's']
     najlepszy_wynik = ""
     max_trafien = -1
     prawdopodobny_klucz = 0
@@ -18,7 +18,6 @@ def lamanie_cezara(zaszyfrowany_tekst):
                 nowa_litera = chr(kod)
                 probny_tekst += nowa_litera
 
-                # Analiza częstotliwości
                 if nowa_litera in polskie_litery:
                     licznik_popularnych += 1
             else:
@@ -26,7 +25,6 @@ def lamanie_cezara(zaszyfrowany_tekst):
 
         print(f"Klucz {klucz:2}: {probny_tekst}")
 
-        # Zapamiętujemy wynik z największą liczbą popularnych liter
         if licznik_popularnych > max_trafien:
             max_trafien = licznik_popularnych
             najlepszy_wynik = probny_tekst
