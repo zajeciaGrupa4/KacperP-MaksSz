@@ -1,8 +1,6 @@
 import pytest
-
-print("Działa!")
-import pytest
-from viegenr import szyfruj_vigenere, deszyfruj_vigenere
+from viegenr import szyfruj_vigenere
+from lamanie_viegenera import deszyfruj_vigenere
 from cezar import szyfr_cezara
 
 
@@ -26,15 +24,15 @@ def test_szyfrowanie_vigenere(tekst, klucz, oczekiwany):
 ])
 def test_deszyfruj_vigenere(tekst, klucz, oryginalny):
     assert deszyfruj_vigenere(tekst, klucz) == oryginalny.upper()
-oryginalny = "ALAMAKOTA"
-klucz = "KOT"
 
-zaszyfrowany = szyfruj_vigenere(oryginalny, klucz)
-odszyfrowany = deszyfruj_vigenere(zaszyfrowany, klucz)
 
-print(f"Oryginał: {oryginalny}")
-print(f"Szyfr:    {zaszyfrowany}")
-print(f"Powrót:   {odszyfrowany}")
+def test_vigenere_roundtrip():
+    oryginalny = "ALAMAKOTA"
+    klucz = "KOT"
+    zaszyfrowany = szyfruj_vigenere(oryginalny, klucz)
+    odszyfrowany = deszyfruj_vigenere(zaszyfrowany, klucz)
+    assert odszyfrowany == oryginalny
+
 
 @pytest.mark.parametrize("text, key, expected", [
     ("abc", 1, "bcd"),
@@ -48,9 +46,10 @@ print(f"Powrót:   {odszyfrowany}")
     ("zzz", 1, "aaa"),
     ("attackatdawn", 7, "haahjrhakhdu"),
 ])
-
 def test_ceaser(text, key, expected):
     assert szyfr_cezara(text, key) == expected
 
-if oryginalny == odszyfrowany:
-    print("\n✅ Wszystko działa poprawnie!")
+
+# Szybki test manualny
+print(f"Test Vigenere: {szyfruj_vigenere('ALA MA KOTA', 'KOT')}")
+print(f"Test Cezara:   {szyfr_cezara('Hello World!', 3)}")
