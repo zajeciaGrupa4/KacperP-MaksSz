@@ -1,5 +1,20 @@
 def szyfr_cezara(tekst, klucz):
-    wynik = ""
+    """
+        Szyfruje tekst przy użyciu klasycznego algorytmu szyfru Cezara.
+
+        Funkcja przesuwa każdą literę w tekście o określoną liczbę miejsc w alfabecie.
+        Zachowuje wielkość liter (małe pozostają małe, wielkie pozostają wielkie)
+        oraz pomija znaki niebędące literami (np. spacje, cyfry, znaki interpunkcyjne).
+
+        Args:
+            tekst (str): Ciąg znaków do zaszyfrowania.
+            klucz (int): Liczba miejsc, o które ma nastąpić przesunięcie
+                (dodatnia dla szyfrowania w prawo, ujemna dla odszyfrowywania).
+
+        Returns:
+            str: Zaszyfrowany tekst wynikowy.
+    """
+    wynik = " "
     for litera in tekst:
         if litera.isalpha():
             if litera.islower():
