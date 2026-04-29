@@ -1,48 +1,56 @@
-# Dokumentacja: Szyfr Vigenère'a
+# Dokumentacja Techniczna: Implementacja Szyfru Vigenère'a
 
-Szyfr Vigenère'a to klasyczny szyfr polialfabetyczny, który stanowi rozwinięcie szyfru Cezara. Zamiast przesuwać wszystkie litery o tę samą stałą wartość, każda litera tekstu jawnego jest przesuwana o wartość wynikającą z odpowiadającej jej litery słowa-klucza.
-
-## Zasada działania
-
-Szyfr wykorzystuje tzw. Tabulę Recta (tablicę Vigenère'a). Każdą literę tekstu jawnego przesuwa się w alfabecie o tyle pozycji, ile wynosi wartość numeryczna odpowiadającej jej litery w kluczu (gdzie A=0, B=1, ..., Z=25).
-
-[Image of Vigenere square]
-
-### Implementacja w kodzie (`viegenr.py`)
-
-Funkcja `szyfruj_vigenere(tekst, klucz)` realizuje algorytm w następujący sposób:
-
-1. **Przygotowanie klucza**: Klucz jest zamieniany na wielkie litery, aby uniknąć błędów w obliczeniach ASCII.
-2. **Iteracja**: Program przechodzi znak po znaku przez tekst wejściowy.
-3. **Obsługa liter**:
-   - Wyliczany jest indeks litery w alfabecie (0-25).
-   - Wyliczany jest indeks przesunięcia z aktualnej litery klucza.
-   - Nowa litera powstaje według wzoru: `(tekst_val + klucz_val) % 26`.
-   - Program rozpoznaje wielkość liter – jeśli oryginał był mały, wynik również będzie mały.
-4. **Znaki specjalne**: Spacje, cyfry i znaki interpunkcyjne są ignorowane przez algorytm szyfrujący (zostają przepisane bez zmian), a licznik klucza w tym czasie "stoi w miejscu".
-
-## Przykładowe szyfrowanie
-
-**Tekst:** `ALA MA KOTA`  
-**Klucz:** `KOT`
-
-* **A** + **K** → **K**
-* **L** + **O** → **Z**
-* **A** + **T** → **T**
-* (spacja pozostaje bez zmian)
-* **M** + **K** → **W**
-* ... i tak dalej.
-
-**Wynik:** `KZT WO DYHT`
-
-## Deszyfrowanie (`lamanie_viegenera.py`)
-
-Proces deszyfrowania jest odwrotnością szyfrowania. Zamiast dodawać wartość klucza, odejmujemy ją od wartości litery zaszyfrowanej:
-`oryginal_val = (zaszyfrowany_val - klucz_val) % 26`.
-
-## Zalety i Wady
-* **Zaleta**: Odporność na prostą analizę częstotliwościową (ta sama litera 'A' w tekście może stać się różnymi literami w szyfrze).
-* **Wada**: Przy krótkim kluczu i długim tekście, wzorce zaczynają się powtarzać, co pozwala na złamanie szyfru metodami statystycznymi.
+Dokument ten opisuje strukturę i logikę dwóch kluczowych modułów projektu: `viegenr.py` (szyfrowanie) oraz `lamanie_viegenera.py` (deszyfrowanie).
 
 ---
-*Plik wygenerowany automatycznie na potrzeby dokumentacji projektu.*
+
+## 1. Architektura kodu
+Projekt opiera się na modułowości, co pozwala na niezależne zarządzanie procesem kodowania i dekodowania danych.
+
+### Główne komponenty:
+* **Logika matematyczna**: Wykorzystanie arytmetyki modulo do operacji na alfabecie.
+* **Zarządzanie kluczem**: Dynamiczne dopasowanie długości hasła do długości tekstu.
+* **Walidacja danych**: Rozróżnianie znaków alfabetycznych od znaków specjalnych.
+
+---
+
+## 2. Analiza funkcji szyfrującej (`viegenr.py`)
+Funkcja `szyfruj_vigenere` odpowiada za zamianę tekstu jawnego na szyfrogram.
+
+### Kluczowe operacje:
+1.  **Normalizacja klucza**:
+    - `klucz.upper()` – ujednolicenie wielkości liter hasła dla stałych wartości przesunięć.
+2.  **Szyfrowanie właściwe**:
+    - `zaszyfrowana_val = (tekst_val + klucz_val) % 26`
+    - **Opis**: Dodanie wartości litery tekstu i klucza. Wynik modulo 26 gwarantuje pozostanie w zakresie alfabetu A-Z.
+3.  **Zachowanie formatowania**:
+    - `if litera.isalpha()` – szyfrowanie pomija spacje i znaki specjalne, przepisując je bezpośrednio do wyniku.
+
+---
+
+## 3. Analiza funkcji deszyfrującej (`lamanie_viegenera.py`)
+Funkcja `deszyfruj_vigenere` przywraca oryginalną treść wiadomości przy użyciu tego samego klucza.
+
+### Mechanizm działania:
+* **Operacja odwrotna**:
+    - `odszyfrowana_val = (tekst_val - klucz_val) % 26`
+    - **Podpunkt**: Zamiast dodawania, odejmujemy przesunięcie klucza.
+* **Normalizacja ASCII**:
+    - `chr(odszyfrowana_val + ord('A'))` – powrót z wartości numerycznej na znak tekstowy.
+
+---
+
+## 4. Wspólne mechanizmy sterujące
+Oba pliki współdzielą te same zasady zarządzania przepływem danych:
+
+### Zarządzanie indeksem klucza:
+- `key_index % len(klucz)`
+  - Pozwala na nieskończone powtarzanie krótkiego hasła dla długich tekstów.
+  - Indeks zwiększa się **tylko** po napotkaniu litery, co zapobiega przesunięciu klucza na spacjach.
+
+### Obsługa wielkości liter:
+- Program zamienia litery na wielkie (`.upper()`) przed obliczeniami, co upraszcza logikę (używamy tylko jednej bazy `ord('A')`).
+
+---
+
+*Dokumentacja przygotowana dla projektu kryptograficznego.*
