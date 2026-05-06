@@ -39,4 +39,5 @@ def szyfr_cezara(tekst, klucz):
     return wynik
 n = "Hello, World!"
 k = 3
-print(szyfr_cezara(n, k))
+if __name__ == "__main__":
+    print(szyfr_cezara("Hello World", 3))

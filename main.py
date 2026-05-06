@@ -51,5 +51,6 @@ def test_ceaser(text, key, expected):
 
 
 # Szybki test manualny
-print(f"Test Vigenere: {szyfruj_vigenere('ALA MA KOTA', 'KOT')}")
-print(f"Test Cezara:   {szyfr_cezara('Hello World!', 3)}")
+if __name__ == "__main__":
+    print(f"Test Vigenere: {szyfruj_vigenere('ALA MA KOTA', 'KOT')}")
+    print(f"Test Cezara:   {szyfr_cezara('Hello World!', 3)}")
