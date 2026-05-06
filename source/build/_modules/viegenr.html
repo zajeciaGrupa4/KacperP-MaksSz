@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+
+<html lang="pl" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>viegenr &#8212; Projekt Kryptograficzny 1.0 - dokumentacja</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <script src="../_static/documentation_options.js?v=331e28ce"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/translations.js?v=2827c288"></script>
+    <link rel="index" title="Indeks" href="../genindex.html" />
+    <link rel="search" title="Szukaj" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Kod źródłowy modułu viegenr</h1><div class="highlight"><pre>
+<div class="viewcode-block" id="szyfruj_vigenere">
+<a class="viewcode-back" href="../viegenr.html#viegenr.szyfruj_vigenere">[dokumentacja]</a>
+<span></span><span class="k">def</span><span class="w"> </span><span class="nf">szyfruj_vigenere</span><span class="p">(</span><span class="n">tekst</span><span class="p">,</span> <span class="n">klucz</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Szyfruje tekst za pomocą szyfru Vigenère’a.</span>
+
+<span class="sd">    :param tekst: tekst do zaszyfrowania</span>
+<span class="sd">    :param klucz: hasło (klucz) używane do przesuwania liter</span>
+<span class="sd">    :return: Zaszyfrowany tekst z zachowaniem wielkości liter</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">wynik</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">key_index</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">klucz</span> <span class="o">=</span> <span class="n">klucz</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">litera</span> <span class="ow">in</span> <span class="n">tekst</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">litera</span><span class="o">.</span><span class="n">isalpha</span><span class="p">():</span>
+            <span class="n">is_lowercase</span> <span class="o">=</span> <span class="n">litera</span><span class="o">.</span><span class="n">islower</span><span class="p">()</span>
+            <span class="n">tekst_val</span> <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">litera</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span> <span class="o">-</span> <span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">)</span>
+            <span class="n">klucz_val</span> <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">klucz</span><span class="p">[</span><span class="n">key_index</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">klucz</span><span class="p">)])</span> <span class="o">-</span> <span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">)</span>
+            <span class="n">zaszyfrowana_val</span> <span class="o">=</span> <span class="p">(</span><span class="n">tekst_val</span> <span class="o">+</span> <span class="n">klucz_val</span><span class="p">)</span> <span class="o">%</span> <span class="mi">26</span>
+            <span class="n">nowa_litera</span> <span class="o">=</span> <span class="nb">chr</span><span class="p">(</span><span class="n">zaszyfrowana_val</span> <span class="o">+</span> <span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">))</span>
+            <span class="n">wynik</span> <span class="o">+=</span> <span class="n">nowa_litera</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">if</span> <span class="n">is_lowercase</span> <span class="k">else</span> <span class="n">nowa_litera</span>
+            <span class="n">key_index</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">wynik</span> <span class="o">+=</span> <span class="n">litera</span>
+    <span class="k">return</span> <span class="n">wynik</span></div>
+
+
+<span class="c1"># --- TO JEST KLUCZOWA CZĘŚĆ ---</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="c1"># Wszystko, co jest W TYM BLOKU, Sphinx zignoruje.</span>
+    <span class="c1"># Wykona się to TYLKO wtedy, gdy klikniesz &quot;Run&quot; w PyCharmie.</span>
+    <span class="n">test_tekst</span> <span class="o">=</span> <span class="s2">&quot;ALA MA KOTA&quot;</span>
+    <span class="n">test_klucz</span> <span class="o">=</span> <span class="s2">&quot;KOT&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Wynik: </span><span class="si">{</span><span class="n">szyfruj_vigenere</span><span class="p">(</span><span class="n">test_tekst</span><span class="p">,</span><span class="w"> </span><span class="n">test_klucz</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">Projekt Kryptograficzny</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Szukaj" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Nawigacja</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">PythonProject2</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Kod modułu</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2026, Maks Sz.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 9.1.0</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
