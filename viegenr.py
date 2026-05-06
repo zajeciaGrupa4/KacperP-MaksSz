@@ -1,4 +1,14 @@
 def szyfruj_vigenere(tekst, klucz):
+    """
+    Szyfruje tekst za pomocą szyfru Vigenère’a.
+
+    Args:
+        tekst: tekst do zaszyfrowania
+        klucz: hasło (klucz) używane do przesuwania liter
+
+    Returns:
+        Zaszyfrowany tekst z zachowaniem wielkości liter
+    """
     wynik = ""
     key_index = 0
     klucz = klucz.upper()
